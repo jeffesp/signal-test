@@ -10,7 +10,7 @@ var page = {
     changed: new Signal()
 };
 
-page.changed.add(function() { console.log("changed");})
+//page.changed.add(function() { console.log("changed");})
 
 ReactDOM.render(
   <HelloWorld page={page} />,

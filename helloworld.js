@@ -5,7 +5,7 @@ class HelloWorld extends React.Component {
 
         this.state = {message: "Hello, World!"};
         props.page.changed.add(x => {
-            this.setState({ message: "Something"});
+            this.setState({ message: x});
         });
     }
 
