@@ -1,8 +1,16 @@
 var React = require('react');
 class HelloWorld extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {message: "Hello, World!"};
+        props.page.changed.add(x => {
+            this.setState({ message: "Something"});
+        });
+    }
+
     render() {
-        const message = this.props.message || "Hello, World!";
-        return <h1>{message}</h1>;
+        return <h1>{this.state.message}</h1>;
     }
 }
 
