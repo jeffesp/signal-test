@@ -2,15 +2,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Signal from 'signals';
+import xhr from 'xhr';
+
 
 import HelloWorld from './helloworld';
 import Update from './update';
 
 
-var page = {
-    changed: new Signal(),
+class Page {
+    constructor() {
+        this.changed = new Signal();
+    }
 
-    update: function() {
+    update() {
         let getRandomInt = (min, max) => {
             min = Math.ceil(min);
             max = Math.floor(max);
@@ -22,14 +26,15 @@ var page = {
             "שלום עולם", "नमस्ते दुनिया"
         ];
 
-        page.changed.dispatch(hellos[getRandomInt(0, hellos.length)]);
+        this.changed.dispatch(hellos[getRandomInt(0, hellos.length)]);
     }
+}
 
-};
+const page = new Page();
 
 // transition every 10 sec no matter what
+// should probably reset it whenever button is clicked....
 setTimeout(_ => page.update(), 10000);
-
 
 ReactDOM.render(
   <HelloWorld page={page} />,
