@@ -12,32 +12,39 @@ import Update from './update';
 class Page {
     constructor() {
         this.changed = new Signal();
+        this.inputted = new Signal();
+        this.update = this.update.bind(this);
+        this.acceptInput = this.update.bind(this);
+        this.timer = setTimeout(this.update, 5000);
     }
 
     update() {
-        let getRandomInt = (min, max) => {
+        const getRandomInt = (min, max) => {
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min)) + min;
-        }  
+        };
         const hellos = [
             "Hello, World", "Hola Mundo", "مرحبا بالعالم", "Bonjour le monde", "Hallo Welt", "你好，世界", "Hei verden",
             "Witaj świecie", "Привет мир", "Selam Dünya", "नमस्कार संसार", "こんにちは世界", "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਦੁਨਿਆ",
             "שלום עולם", "नमस्ते दुनिया"
         ];
 
+        clearTimeout(this.timer);
         this.changed.dispatch(hellos[getRandomInt(0, hellos.length)]);
+        this.timer = setTimeout(this.update, 5000);
+    }
+
+    acceptInput() {
+        clearTimeout(this.timer);
+        this.inputted.dispatch(); 
     }
 }
 
 const page = new Page();
 
-// transition every 10 sec no matter what
-// should probably reset it whenever button is clicked....
-setTimeout(_ => page.update(), 10000);
-
 ReactDOM.render(
-  <HelloWorld page={page} />,
+  <HelloWorld page={page} onClick={page.acceptInput} />,
   document.getElementById('example')
 );
 
